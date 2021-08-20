@@ -11,7 +11,12 @@ from rdkit import Chem
 from tqdm import tqdm
 
 # set working directory
-git_dir = os.path.expanduser("~/git/NPS-generation")
+if os.path.isdir("~/git/NPS-generation"):
+    git_dir = os.path.expanduser("~/git/NPS-generation")
+elif os.path.isdir("/Users/gregstacey/Academics/Foster/Metabolomics/bespoke-deepgen"):
+    git_dir = os.path.expanduser("~/Academics/Foster/Metabolomics/bespoke-deepgen")
+elif os.path.isdir("/scratch/st-ljfoster-1/staceyri/NPS-generation"):
+    git_dir = os.path.expanduser("/scratch/st-ljfoster-1/staceyri/NPS-generation")
 python_dir = git_dir + "/python"
 os.chdir(python_dir)
 sys.path.append(python_dir)
