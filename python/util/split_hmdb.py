@@ -41,6 +41,8 @@ data.to_csv("../data/hmdb/hmdb.smi", index = False)
 
 # kingdoms
 unq = data["kingdom"].dropna().unique()
+if not os.path.isdir("../data/hmdb/kingdom/"):
+    os.makedirs("../data/hmdb/kingdom/")
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/kingdom/" + unq[ii] + '.smi'
@@ -48,6 +50,8 @@ for ii in range(0, len(unq)):
     
 # superklass
 unq = data["superklass"].dropna().unique()
+if not os.path.isdir("../data/hmdb/superklass/"):
+    os.makedirs("../data/hmdb/superklass/")
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/superklass/" + ss + '.smi'
@@ -55,6 +59,8 @@ for ii in range(0, len(unq)):
     
 # klass
 unq = data["klass"].dropna().unique()
+if not os.path.isdir("../data/hmdb/klass/"):
+    os.makedirs("../data/hmdb/klass/")
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/klass/" + ss + '.smi'
