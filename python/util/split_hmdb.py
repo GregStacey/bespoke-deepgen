@@ -38,7 +38,7 @@ data = pd.read_csv('../data/hmdb/20200730_hmdb_classifications-canonical.csv.gz'
 
 # write smiles files
 # full
-data.to_csv("../data/hmdb/hmdb.smi", index = False, columns = "smiles", header = False)
+data.to_csv("../data/hmdb/hmdb.smi", index = False, columns = ["smiles"], header = False)
 
 # kingdoms
 unq = data["kingdom"].dropna().unique()
@@ -47,7 +47,7 @@ if not os.path.isdir("../data/hmdb/kingdom/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/kingdom/" + unq[ii] + '.smi'
-    data[data["kingdom"]==unq[ii]].to_csv(fn, index = False, columns = "smiles", header = False)
+    data[data["kingdom"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
     
 # superklass
 unq = data["superklass"].dropna().unique()
@@ -56,7 +56,7 @@ if not os.path.isdir("../data/hmdb/superklass/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/superklass/" + ss + '.smi'
-    data[data["superklass"]==unq[ii]].to_csv(fn, index = False, columns = "smiles", header = False)
+    data[data["superklass"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
     
 # klass
 unq = data["klass"].dropna().unique()
@@ -65,4 +65,4 @@ if not os.path.isdir("../data/hmdb/klass/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/klass/" + ss + '.smi'
-    data[data["klass"]==unq[ii]].to_csv(fn, index = False, columns = "smiles", header = False)
+    data[data["klass"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
