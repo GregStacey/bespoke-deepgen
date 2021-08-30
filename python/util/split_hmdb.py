@@ -31,6 +31,8 @@ from functions import clean_mols, remove_salts_solvents, read_smiles, \
 # import Vocabulary
 from datasets import Vocabulary
 
+# remove duplicate rows
+
 
 # read full hmdb
 data = pd.read_csv('../data/hmdb/20200730_hmdb_classifications-canonical.csv.gz')
@@ -38,7 +40,8 @@ data = pd.read_csv('../data/hmdb/20200730_hmdb_classifications-canonical.csv.gz'
 
 # write smiles files
 # full
-data.to_csv("../data/hmdb/hmdb.smi", index = False, columns = ["smiles"], header = False)
+sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+sm.to_csv("../data/hmdb/hmdb.smi", index = False, columns = ["canonical_smiles"], header = False)
 
 # kingdoms
 unq = data["kingdom"].dropna().unique()
@@ -47,7 +50,9 @@ if not os.path.isdir("../data/hmdb/kingdom/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/kingdom/" + ss + '.smi'
-    data[data["kingdom"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
+    sm = data[data["kingdom"]==unq[ii]]
+    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
     
 # superklass
 unq = data["superklass"].dropna().unique()
@@ -56,7 +61,9 @@ if not os.path.isdir("../data/hmdb/superklass/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/superklass/" + ss + '.smi'
-    data[data["superklass"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
+    sm = data[data["superklass"]==unq[ii]]
+    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
     
 # klass
 unq = data["klass"].dropna().unique()
@@ -65,4 +72,6 @@ if not os.path.isdir("../data/hmdb/klass/"):
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/klass/" + ss + '.smi'
-    data[data["klass"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
+    sm = data[data["klass"]==unq[ii]]
+    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
