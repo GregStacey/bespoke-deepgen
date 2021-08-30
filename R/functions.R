@@ -79,7 +79,7 @@ write_sh = function(job_name,
       'module load openmpi/3.1.5',
       'module load netcdf/4.7.3',
       'module load r/3.6.2-py3.7.3',
-      'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/',
+      'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/python/',
       ''
     )
   } else if (system == 'ronin' | system=='macbook') {
