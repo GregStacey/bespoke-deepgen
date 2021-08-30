@@ -92,7 +92,12 @@ write_sh = function(job_name,
                    'ronin' = '$SLURM_ARRAY_TASK_ID',
                    'sockeye' = '$PBS_ARRAY_INDEX')
   run_lines = c(
-    paste(paste0('LINE=cat ',grid_file,' | head -', idxvar, ' | tail -1'))
+    paste0('LINE=`cat ',grid_file,' | head -', idx_var, ' | tail -1`'),
+    paste0("INPUTFILE=`echo $LINE | awk '{print $1}'`"),
+    paste0("ENUM=`echo $LINE | awk '{print $2}'`"),
+    paste0("OUTPUTFILE=`echo $LINE | awk '{print $3}'`"),
+    '',
+    'python python/augment-SMILES.py --input_file $INPUTFILE --output_file $OUTPUTFILE --enum_factor $ENUM '
   )
   
   # write to file
