@@ -10,7 +10,13 @@ import pandas as pd
 from tqdm import tqdm
 
 # set working directory
-git_dir = os.path.expanduser("~/git/NPS-generation")
+if os.path.isdir("~/git/bespoke-deepgen"):
+    git_dir = os.path.expanduser("~/git/bespoke-deepgen")
+elif os.path.isdir("/Users/gregstacey/Academics/Foster/Metabolomics/bespoke-deepgen"):
+    git_dir = os.path.expanduser("~/Academics/Foster/Metabolomics/bespoke-deepgen")
+elif os.path.isdir("/scratch/st-ljfoster-1/staceyri/bespoke-deepgen"):
+    git_dir = os.path.expanduser("/scratch/st-ljfoster-1/staceyri/bespoke-deepgen")
+
 python_dir = git_dir + "/python"
 os.chdir(python_dir)
 
