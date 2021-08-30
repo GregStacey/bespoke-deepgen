@@ -51,7 +51,7 @@ for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/kingdom/" + ss + '.smi'
     sm = data[data["kingdom"]==unq[ii]]
-    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm = pd.DataFrame({'canonical_smiles': sm.unique()})
     sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
     
 # superklass
@@ -62,7 +62,7 @@ for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/superklass/" + ss + '.smi'
     sm = data[data["superklass"]==unq[ii]]
-    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm = pd.DataFrame({'canonical_smiles': sm.unique()})
     sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
     
 # klass
@@ -73,5 +73,5 @@ for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
     fn = "../data/hmdb/klass/" + ss + '.smi'
     sm = data[data["klass"]==unq[ii]]
-    sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
+    sm = pd.DataFrame({'canonical_smiles': sm.unique()})
     sm.to_csv(fn, index = False, columns = ["canonical_smiles"], header = False)
