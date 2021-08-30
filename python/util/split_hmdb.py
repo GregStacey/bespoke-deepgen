@@ -46,7 +46,7 @@ if not os.path.isdir("../data/hmdb/kingdom/"):
     os.makedirs("../data/hmdb/kingdom/")
 for ii in range(0, len(unq)):
     ss = ''.join(e for e in unq[ii] if e.isalnum())
-    fn = "../data/hmdb/kingdom/" + unq[ii] + '.smi'
+    fn = "../data/hmdb/kingdom/" + ss + '.smi'
     data[data["kingdom"]==unq[ii]].to_csv(fn, index = False, columns = ["smiles"], header = False)
     
 # superklass
