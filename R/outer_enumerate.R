@@ -18,7 +18,8 @@ job_name = 'enumerate'
 # find all non-enumerated .smi files
 fns = dir("data/hmdb/", pattern = ".smi", full.names = T, recursive = T) %>%
   # filter out enumerated files
-  .[!grepl("enum", .)]
+  .[!grepl("enum", .)] %>%
+  normalizePath()
 
 # set up grid
 jobs = tidyr::crossing(fns,

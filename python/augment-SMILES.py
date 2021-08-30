@@ -18,7 +18,7 @@ elif os.path.isdir("/scratch/st-ljfoster-1/staceyri/bespoke-deepgen"):
     git_dir = os.path.expanduser("/scratch/st-ljfoster-1/staceyri/bespoke-deepgen")
 
 python_dir = git_dir + "/python"
-os.chdir(git_dir)
+os.chdir(python_dir)
 
 # import SmilesEnumerator
 from util.SmilesEnumerator import SmilesEnumerator
