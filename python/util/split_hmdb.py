@@ -38,7 +38,9 @@ from datasets import Vocabulary
 data = pd.read_csv('../data/hmdb/20200730_hmdb_classifications-canonical.csv.gz')
 
 
+
 # write smiles files
+
 # full
 sm = pd.DataFrame({'canonical_smiles': data["canonical_smiles"].unique()})
 sm.to_csv("../data/hmdb/hmdb.smi", index = False, columns = ["canonical_smiles"], header = False)

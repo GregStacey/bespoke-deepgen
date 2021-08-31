@@ -97,7 +97,7 @@ write_sh = function(job_name,
     paste0("ENUM=`echo $LINE | awk '{print $2}'`"),
     paste0("OUTPUTFILE=`echo $LINE | awk '{print $3}'`"),
     '',
-    'python python/augment-SMILES.py --input_file $INPUTFILE --output_file $OUTPUTFILE --enum_factor $ENUM '
+    'python augment-SMILES.py --input_file $INPUTFILE --output_file $OUTPUTFILE --enum_factor $ENUM '
   )
   
   # write to file
