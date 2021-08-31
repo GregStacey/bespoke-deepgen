@@ -74,6 +74,7 @@ write_sh = function(job_name,
     )
     
     env_lines = c(
+      'source /arc/software/spack/opt/spack/linux-centos7-x86_64/gcc-9.1.0/miniconda3-4.6.14-wsswwucnigbnge5edropjstrirpjx7je/etc/profile.d/conda.sh',
       'conda activate chemenv',
       'module load gcc/9.1.0',
       'module load openmpi/3.1.5',
