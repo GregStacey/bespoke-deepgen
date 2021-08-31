@@ -31,12 +31,10 @@ from functions import clean_mols, remove_salts_solvents, read_smiles, \
 # import Vocabulary
 from datasets import Vocabulary
 
-# remove duplicate rows
-
 
 # read full hmdb
 data = pd.read_csv('../data/hmdb/20200730_hmdb_classifications-canonical.csv.gz')
-
+data = data.dropna(subset = ["canonical_smiles"]) # remove NA
 
 
 # write smiles files
