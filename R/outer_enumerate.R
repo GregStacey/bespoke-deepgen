@@ -31,7 +31,7 @@ jobs = tidyr::crossing(fns,
 
 
 # write the grid that still needs to be run
-grid_file = paste0("sh/grids/", job_name, ".txt")
+grid_file = paste0(getwd(), "/sh/grids/", job_name, ".txt")
 grid_dir = dirname(grid_file)
 if (!dir.exists(grid_dir))
   dir.create(grid_dir, recursive = TRUE)
