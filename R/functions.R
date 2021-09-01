@@ -142,10 +142,8 @@ write_sh = function(job_name = c("clean", "enumerate", "train"),
       '    --log_every_steps 100 \ ',
       '    --max_epochs 999999 \ ',
       '    --patience 50000 \ ',
-      '    --stop_if_exists',
+      '    --stop_if_exists'
     )
-    
-
   }
   
   # write to file
