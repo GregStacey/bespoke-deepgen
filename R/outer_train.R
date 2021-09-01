@@ -36,9 +36,7 @@ jobs = tidyr::crossing(enum = 0,
                        sample_idx = 0,
                        smiles_file = fns,
                        output_dir = "experiments/01_kategory/")%>%
-  # include output files in grid
-  #mutate(tmp = ) %>%
-  mutate(sf = str_replace(fns, ".smi", paste0("_enum", enum, ".smi"))) %>%
+  # vocab file
   as.data.frame()
 
 # write the grid that still needs to be run
