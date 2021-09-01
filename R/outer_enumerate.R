@@ -16,7 +16,7 @@ if (dir.exists("/scratch/st-ljfoster-1/logs/")) {
 job_name = 'enumerate'
 
 # find all non-enumerated .smi files
-fns = dir("data/hmdb/", pattern = ".smi", full.names = T, recursive = T) %>%
+fns = dir("data/hmdb/", pattern = "_clean.smi", full.names = T, recursive = T) %>%
   # filter out enumerated files
   .[!grepl("enum", .)] %>%
   normalizePath()

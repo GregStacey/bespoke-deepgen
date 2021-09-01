@@ -86,7 +86,7 @@ n_smiles = len(smiles)
 for token in vocabulary.characters:
     token_smiles = [sm for sm in smiles if token in vocabulary.tokenize(sm)]
     pct_smiles = len(token_smiles) / n_smiles
-    if pct_smiles < 0.01 / 100 or len(token_smiles) <= 10:
+    if pct_smiles < 0.01 / 100:# or len(token_smiles) <= 10:
         # remove from SMILES
         smiles = list(set(smiles).difference(token_smiles))
 

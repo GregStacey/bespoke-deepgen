@@ -42,7 +42,7 @@ submit_job = function(jobs0, script, allocation,
 }
 
 
-write_sh = function(job_name,
+write_sh = function(job_name = c("clean", "enumerate"),
                     sh_file,
                     grid_file,
                     inner_file,
@@ -55,6 +55,7 @@ write_sh = function(job_name,
                     other_args = NULL
 ) {
   system = match.arg(system)
+  job_name = match.arg(job_name)
   
   # read the grid
   grid = read.delim(grid_file)
@@ -92,14 +93,22 @@ write_sh = function(job_name,
   idx_var = switch(system,
                    'ronin' = '$SLURM_ARRAY_TASK_ID',
                    'sockeye' = '$PBS_ARRAY_INDEX')
-  run_lines = c(
-    paste0('LINE=`cat ',grid_file,' | head -', idx_var, ' | tail -1`'),
-    paste0("INPUTFILE=`echo $LINE | awk '{print $1}'`"),
-    paste0("ENUM=`echo $LINE | awk '{print $2}'`"),
-    paste0("OUTPUTFILE=`echo $LINE | awk '{print $3}'`"),
-    '',
-    'python augment-SMILES.py --input_file $INPUTFILE --output_file $OUTPUTFILE --enum_factor $ENUM '
-  )
+  if (job_name=="enumerate"){
+    run_lines = c(
+      paste0('LINE=`cat ',grid_file,' | head -', idx_var, ' | tail -1`'),
+      paste0("INPUTFILE=`echo $LINE | awk '{print $1}'`"),
+      paste0("ENUM=`echo $LINE | awk '{print $2}'`"),
+      paste0("OUTPUTFILE=`echo $LINE | awk '{print $3}'`"),
+      'python augment-SMILES.py --input_file $INPUTFILE --output_file $OUTPUTFILE --enum_factor $ENUM '
+    )
+  } else if (job_name=="clean") {
+    run_lines = c(
+      paste0('LINE=`cat ',grid_file,' | head -', idx_var, ' | tail -1`'),
+      paste0("INPUTFILE=`echo $LINE | awk '{print $1}'`"),
+      paste0("OUTPUTFILE=`echo $LINE | awk '{print $2}'`"),
+      'python clean-SMILES.py $INPUTFILE'
+    )
+  }
   
   # write to file
   lines = c(header_lines,
