@@ -21,6 +21,9 @@ fns = dir("data/hmdb/", pattern = "_clean.smi", full.names = T, recursive = T) %
   .[!grepl("enum", .)] %>%
   normalizePath()
 
+# just benzenoids for now
+fns = fns[grep("Benzenoids_clean.smi", fns)]
+
 # set up grid
 jobs = tidyr::crossing(enum = 0,
                        n_layers = 3,
@@ -32,7 +35,7 @@ jobs = tidyr::crossing(enum = 0,
                        learning_rate = 10000,
                        sample_idx = 0,
                        smiles_file = fns,
-                       output_dir = "experiments/01_superklass/")%>%
+                       output_dir = "experiments/01_kategory/")%>%
   # include output files in grid
   #mutate(tmp = ) %>%
   mutate(sf = str_replace(fns, ".smi", paste0("_enum", enum, ".smi"))) %>%
