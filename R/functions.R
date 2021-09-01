@@ -51,6 +51,7 @@ write_sh = function(job_name = c("clean", "enumerate"),
                     mem = 4, ## in GB
                     cpus = 1,
                     cpu_arch = NULL,
+                    gpu = F,
                     log.dir = NULL,
                     other_args = NULL
 ) {
@@ -66,8 +67,9 @@ write_sh = function(job_name = c("clean", "enumerate"),
     if (!is.null(cpu_arch)) cpu_arch = paste0(":cpu_arch=", cpu_arch)
     header_lines = c(
       '#!/bin/bash',
-      paste0('#PBS -l walltime=', time, ':00:00,select=1:ncpus=', cpus,
-             ':mem=', mem, 'gb', cpu_arch),
+      paste0('#PBS -l walltime=', time, ':00:00,select=1:n', 
+             ifelse(gpu, 'gpus=', 'cpus='), cpus,
+             ':mem=', mem, 'gb'),
       paste0('#PBS -N ', job_name),
       paste0('#PBS -o ', log.dir, '/', job_name, '-^array_index^.out'),
       paste0('#PBS -e ', log.dir, '/', job_name, '-^array_index^.err'),
@@ -108,6 +110,42 @@ write_sh = function(job_name = c("clean", "enumerate"),
       paste0("OUTPUTFILE=`echo $LINE | awk '{print $2}'`"),
       'python clean-SMILES.py $INPUTFILE'
     )
+  } else if (job_name=="train") {
+    run_lines = c(
+      'LINE_IDX=$((PBS_ARRAY_INDEX + 1))',
+      paste0('LINE=`sed "${LINE_IDX}q;d" ', grid_file, '`'),
+      "IFS=$'\t' PARAMS=($LINE)",
+      'AUGMENTATION=${PARAMS[0]}',
+      'N_LAYERS=${PARAMS[1]}',
+      'EMB_SIZE=${PARAMS[2]}',
+      'HIDDEN_SIZE=${PARAMS[3]}',
+      'RNN_TYPE=${PARAMS[4]}',
+      'DROPOUT=${PARAMS[5]}',
+      'BATCH_SIZE=${PARAMS[6]}',
+      'LEARNING_RATE=${PARAMS[7]}',
+      'SAMPLE_IDX=${PARAMS[8]}',
+      'SMILES_FILE=${PARAMS[9]}',
+      'OUTPUT_DIR=${PARAMS[10]}',
+      '',
+      'python train_model.py \ ',
+      '    --smiles_file $SMILES_FILE \ ',
+      '    --vocab_file $VOCAB_FILE \ ',
+      '    --output_dir $OUTPUT_DIR \ ',
+      '    --rnn_type $RNN_TYPE \ ',
+      '    --hidden_size $HIDDEN_SIZE \ ',
+      '    --embedding_size $EMB_SIZE \ ',
+      '    --n_layers $N_LAYERS \ ',
+      '    --dropout $DROPOUT \ ',
+      '    --learning_rate $LEARNING_RATE \ ',
+      '    --batch_size $BATCH_SIZE \ ',
+      '    --sample_size 500000 \ ',
+      '    --log_every_steps 100 \ ',
+      '    --max_epochs 999999 \ ',
+      '    --patience 50000 \ ',
+      '    --stop_if_exists',
+    )
+    
+
   }
   
   # write to file

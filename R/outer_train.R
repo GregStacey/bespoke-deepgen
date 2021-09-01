@@ -13,24 +13,32 @@ if (dir.exists("/scratch/st-ljfoster-1/logs/")) {
 }
 
 
-job_name = 'clean'
+job_name = 'train'
 
-# find all non-cleaned, non-enumerated .smi files
-fns = dir("data/hmdb/", pattern = ".smi", full.names = T, recursive = T) %>%
+# find all cleaned, non-enumerated .smi files
+fns = dir("data/hmdb/", pattern = "_clean.smi", full.names = T, recursive = T) %>%
+  # filter out enumerated files
   .[!grepl("enum", .)] %>%
-  .[!grepl("clean", .)] %>%
   normalizePath()
 
 # set up grid
-jobs = tidyr::crossing(fns) %>%
+jobs = tidyr::crossing(enum = 0,
+                       n_layers = 3,
+                       emb_size = 128,
+                       hidden_size = 512,
+                       rnn_type = "GRU",
+                       dropout = 0,
+                       batch_size = 128,
+                       learning_rate = 10000,
+                       sample_idx = 0,
+                       smiles_file = fns,
+                       output_dir = "experiments/01_superklass/")%>%
   # include output files in grid
-  mutate(sf = str_replace(fns, ".smi", "_clean.smi")) %>%
-  # remove existing jobs
-  filter(!file.exists(sf)) %>%
+  #mutate(tmp = ) %>%
+  mutate(sf = str_replace(fns, ".smi", paste0("_enum", enum, ".smi"))) %>%
   as.data.frame()
 
-
-# write grid file
+# write the grid that still needs to be run
 grid_file = paste0(getwd(), "/sh/grids/", job_name, ".txt")
 grid_dir = dirname(grid_file)
 if (!dir.exists(grid_dir))
@@ -50,10 +58,10 @@ write_sh(job_name = job_name,
          sh_file = sh_file,
          grid_file = grid_file,
          log.dir = log.dir,
-         inner_file = 'python/clean-SMILES.py',
+         inner_file = 'python/train_model.py',
          system = this.system,
-         time = 1,
-         mem = 6)
+         time = 23,
+         mem = 12, gpu = T)
 
 
 
