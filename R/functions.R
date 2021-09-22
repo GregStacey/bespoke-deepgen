@@ -77,13 +77,8 @@ write_sh = function(job_name = c("clean", "enumerate", "train"),
     )
     
     env_lines = c(
-      'source /arc/software/spack/opt/spack/linux-centos7-x86_64/gcc-9.1.0/miniconda3-4.6.14-wsswwucnigbnge5edropjstrirpjx7je/etc/profile.d/conda.sh',
-      'conda activate chemenv',
-      'module load gcc/9.1.0',
-      'module load openmpi/3.1.5',
-      'module load netcdf/4.7.3',
-      'module load r/3.6.2-py3.7.3',
-      'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/python/',
+      'module load Software_Collection/2021',
+      'module load gcc/9.4.0 openmpi python singularity',
       ''
     )
   } else if (system == 'ronin' | system=='macbook') {
@@ -127,7 +122,7 @@ write_sh = function(job_name = c("clean", "enumerate", "train"),
       'SMILES_FILE=${PARAMS[9]}',
       'OUTPUT_DIR=${PARAMS[10]}',
       '',
-      'python train_model.py \\ ',
+      'singularity exec --nv /arc/project/st-ljfoster-1/staceyri_R_Container.sif python train_model.py \\ ',
       '    --smiles_file $SMILES_FILE \\ ',
       '    --output_dir $OUTPUT_DIR \\ ',
       '    --rnn_type $RNN_TYPE \\ ',

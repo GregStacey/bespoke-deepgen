@@ -21,8 +21,8 @@ fns = dir("data/hmdb/", pattern = "_clean.smi", full.names = T, recursive = T) %
   .[!grepl("enum", .)] %>%
   normalizePath()
 
-# just benzenoids for now
-fns = fns[grep("Benzenoids_clean.smi", fns)]
+# just superklasses + kingdoms for now
+fns = fns[grepl("superklass", fns) | grepl("kingdom", fns)]
 
 # set up grid
 jobs = tidyr::crossing(enum = 0,
@@ -35,8 +35,10 @@ jobs = tidyr::crossing(enum = 0,
                        learning_rate = 10000,
                        sample_idx = 0,
                        smiles_file = fns,
-                       output_dir = "experiments/01_kategory/")%>%
-  # vocab file
+                       output_dir = "experiments/01_kategory/") %>%
+  # # vocab file
+  # mutate(fn_vocab = paste0("experiments/01_kategory/",
+  #                          file_path_sans_ext(basename(smiles_file)))) %>%
   as.data.frame()
 
 # write the grid that still needs to be run
@@ -63,7 +65,6 @@ write_sh(job_name = job_name,
          system = this.system,
          time = 23,
          mem = 12, gpu = T)
-
 
 
 # finally, run the job on whatever system we're on
