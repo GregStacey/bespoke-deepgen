@@ -6,7 +6,7 @@ select = dplyr::select
 # detect system
 if (dir.exists("/scratch/st-ljfoster-1/logs/")) {
   this.system = "sockeye"
-} else if (dir.exists("/home/centos/projects/")) {
+} else if (dir.exists("/home/centos/")) {
   this.system = "ronin"
 } else if (dir.exists('/Users/gregstacey/')) {
   this.system = "macbook"
@@ -35,11 +35,17 @@ jobs = tidyr::crossing(enum = 0,
                        learning_rate = 10000,
                        sample_idx = 0,
                        smiles_file = fns,
-                       output_dir = "experiments/01_kategory/") %>%
+                       output_dir = paste0("experiments/01_kategory/",
+                                           basename(fns) %>% gsub("_clean.smi", "", .), "/")) %>%
   # # vocab file
   # mutate(fn_vocab = paste0("experiments/01_kategory/",
   #                          file_path_sans_ext(basename(smiles_file)))) %>%
   as.data.frame()
+
+# make output dirs if needed
+for (ii in 1:length(unique(jobs$output_dir))) {
+  if (!dir.exists(unique(jobs$output_dir)[ii])) dir.create(unique(jobs$output_dir)[ii])
+}
 
 # write the grid that still needs to be run
 grid_file = paste0(getwd(), "/sh/grids/", job_name, ".txt")

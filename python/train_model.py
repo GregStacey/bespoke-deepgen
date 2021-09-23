@@ -133,12 +133,13 @@ for arg in vars(args):
 
 # optionally stop if output file already exists
 if args.selfies:
-    smiles_filename = "sample-" + str(args.sample_idx + 1) + "-SELFIES.smi"
+    output_filename = "sample-" + str(args.sample_idx + 1) + "-SELFIES.smi"
 else:
-    smiles_filename = "sample-" + str(args.sample_idx + 1) + "-SMILES.smi"
-smiles_file = os.path.join(args.output_dir, smiles_filename)
-if os.path.isfile(smiles_file) and args.stop_if_exists:
-    print("output file " + smiles_file + " exists: stopping early")
+    output_filename = "sample-" + str(args.sample_idx + 1) + "-SMILES.smi"
+
+output_file = os.path.join(args.output_dir, output_filename)
+if os.path.isfile(output_file) and args.stop_if_exists:
+    print("output file " + output_file + " exists: stopping early")
     sys.exit()
 
 # make output directories
@@ -294,4 +295,4 @@ while len(sampled_smiles) < args.sample_size:
     sampled_smiles.extend(model.sample(args.batch_size, return_smiles=True))
 
 # write sampled SMILES
-write_smiles(sampled_smiles, smiles_file)
+write_smiles(sampled_smiles, output_file)

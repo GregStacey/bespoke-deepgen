@@ -10,12 +10,14 @@ Created on Thu Sep 23 12:23:27 2021
 class Object(object):
     pass
 
+## train_model.py
+
 args = Object()
 # input file
-args.smiles_file = ""
+args.smiles_file = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/data/hmdb/superklass/Benzenoids_clean.smi"
 args.selfies = False
 # output files
-args.output_dir = ""
+args.output_dir = "experiments/01_kategory/Benzenoids/"
 # RNN parameters
 args.rnn_type = "GRU"
 args.embedding_size = 128
