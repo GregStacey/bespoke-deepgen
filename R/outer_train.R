@@ -35,9 +35,9 @@ jobs = tidyr::crossing(enum = 0,
                        batch_size = 128,
                        learning_rate = 10000,
                        sample_idx = 0,
-                       smiles_file = fns,
-                       output_dir = paste0(project_dir, "experiments/01_kategory/",
-                                           basename(fns) %>% gsub("_clean.smi", "", .), "/")) %>%
+                       smiles_file = fns) %>%
+  mutate(output_dir = paste0(project_dir, "experiments/01_kategory/",
+                             basename(fns) %>% gsub("_clean.smi", "", .), "/")) %>%
   # # vocab file
   # mutate(fn_vocab = paste0("experiments/01_kategory/",
   #                          file_path_sans_ext(basename(smiles_file)))) %>%
