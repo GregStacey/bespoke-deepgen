@@ -142,6 +142,14 @@ if os.path.isfile(output_file) and args.stop_if_exists:
     print("output file " + output_file + " exists: stopping early")
     sys.exit()
 
+# model file
+model_filename = "model-" + str(args.sample_idx + 1) + ".pt"
+model_file = os.path.join(args.output_dir, model_filename)
+
+# set up training schedule file
+sched_filename = "training_schedule-" + str(args.sample_idx + 1) + ".csv"
+sched_file = os.path.join(args.output_dir, sched_filename)
+
 # make output directories
 if not os.path.isdir(args.output_dir):
     try:
@@ -205,39 +213,35 @@ optimizer = optim.Adam(model.parameters(),
 # set up early stopping
 early_stop = EarlyStopping(patience=args.patience)
 
-# set up training schedule file
-sched_filename = "training_schedule-" + str(args.sample_idx + 1) + ".csv"
-sched_file = os.path.join(args.output_dir, sched_filename)
-
 # iterate over epochs
 counter = 0
 for epoch in range(args.max_epochs):
     # iterate over batches
     for batch_idx, batch in tqdm(enumerate(loader), total=len(loader)):
         batch, lengths = batch
-
+        
         # increment counter
         counter += 1
-
+        
         # calculate loss
         log_p = model.loss(batch, lengths)
         loss = log_p.mean()
-
+        
         # zero gradients, calculate new gradients, and take a step
         optimizer.zero_grad()
         loss.backward()
         # clip gradient
         if args.gradient_clip is not None:
             nn.utils.clip_grad_norm_(model.parameters(), args.gradient_clip)
-
+        
         optimizer.step()
-
+        
         # check learning rate decay
         if args.learning_rate_decay is not None and \
                 counter % args.learning_rate_decay_steps == 0:
             decrease_learning_rate(optimizer,
                                    multiplier=args.learning_rate_decay)
-
+        
         # print update and write training schedule?
         if args.log_every_steps is not None:
             if counter % args.log_every_steps == 0:
@@ -245,35 +249,33 @@ for epoch in range(args.max_epochs):
                              args.batch_size, selfies=args.selfies)
                 track_loss(sched_file, model, dataset, epoch,
                            counter, loss.item(), args.batch_size)
-
+        
         # save SMILES?
         if args.sample_every_steps is not None:
             if counter % args.sample_every_steps == 0:
                 sample_smiles(args.output_dir, args.sample_idx, model,
                               args.sample_size, epoch, counter)
-
+        
         # calculate validation loss
         validation, lengths = dataset.get_validation(args.batch_size)
         validation_loss = model.loss(validation, lengths).mean().detach()
         # check early stopping
-        model_filename = "model-" + str(args.sample_idx + 1) + ".pt"
-        model_file = os.path.join(args.output_dir, model_filename)
         early_stop(validation_loss.item(), model, model_file, counter)
-
+        
         if early_stop.stop:
             break
-
+        
     # print update and write training schedule?
     if args.log_every_epochs is not None:
         print_update(model, dataset, epoch, 'NA', loss.item(), args.batch_size)
         track_loss(sched_file, model, dataset, epoch,
                    counter, loss.item(), args.batch_size)
-
+    
     # save SMILES?
     if args.sample_every_epochs is not None:
         sample_smiles(args.output_dir, args.sample_idx, model,
                       args.sample_size, epoch, counter)
-
+    
     if early_stop.stop:
         break
 

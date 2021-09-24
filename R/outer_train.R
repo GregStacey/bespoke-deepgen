@@ -6,6 +6,7 @@ select = dplyr::select
 # detect system
 if (dir.exists("/scratch/st-ljfoster-1/logs/")) {
   this.system = "sockeye"
+  project_dir = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/"
 } else if (dir.exists("/home/centos/")) {
   this.system = "ronin"
 } else if (dir.exists('/Users/gregstacey/')) {
@@ -35,7 +36,7 @@ jobs = tidyr::crossing(enum = 0,
                        learning_rate = 10000,
                        sample_idx = 0,
                        smiles_file = fns,
-                       output_dir = paste0("experiments/01_kategory/",
+                       output_dir = paste0(project_dir, "experiments/01_kategory/",
                                            basename(fns) %>% gsub("_clean.smi", "", .), "/")) %>%
   # # vocab file
   # mutate(fn_vocab = paste0("experiments/01_kategory/",

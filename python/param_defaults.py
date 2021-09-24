@@ -39,10 +39,10 @@ args.max_epochs = 1000
 args.patience = 100
 # sampling from trained models
 args.sample_idx = 0
-args.sample_every_epochs = False  # ??
-args.sample_every_steps = False  # ??
-args.log_every_steps = False  # ??
-args.log_every_epochs = False  # ??
+args.sample_every_steps = None  # ??
+args.log_every_steps = None  # ??
+args.sample_every_epochs = None  # ??
+args.log_every_epochs = None  # ??
 args.sample_size = 100000
 # start with pretrained model
 args.pretrain_model = None
