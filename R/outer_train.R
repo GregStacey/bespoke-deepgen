@@ -34,14 +34,23 @@ jobs = tidyr::crossing(enum = 0,
                        dropout = 0,
                        batch_size = 128,
                        learning_rate = 10000,
-                       sample_idx = 0,
+                       sample_idx = 0:2,
                        smiles_file = fns) %>%
   mutate(output_dir = paste0(project_dir, "experiments/01_kategory/",
-                             basename(fns) %>% gsub("_clean.smi", "", .), "/")) %>%
+                             basename(smiles_file) %>% gsub("_clean.smi", "", .), "/")) %>%
   # # vocab file
   # mutate(fn_vocab = paste0("experiments/01_kategory/",
   #                          file_path_sans_ext(basename(smiles_file)))) %>%
+  # filter jobs that exist
+  mutate(model_file = paste0(output_dir, "sample-", sample_idx+1,"-SMILES.smi")) %>%
+  filter(!file.exists(model_file)) %>%
   as.data.frame()
+
+# reduce to <=50 jobs on sockeye
+if (this.system=="sockeye") {
+  jobs = jobs[sample(nrow(jobs), 49),]
+}
+
 
 # make output dirs if needed
 for (ii in 1:length(unique(jobs$output_dir))) {
