@@ -42,7 +42,7 @@ submit_job = function(jobs0, script, allocation,
 }
 
 
-write_sh = function(job_name = c("clean", "enumerate", "train"),
+write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcomes"),
                     sh_file,
                     grid_file,
                     inner_file,
