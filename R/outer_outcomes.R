@@ -13,7 +13,7 @@ if (dir.exists("/scratch/st-ljfoster-1/logs/")) {
   this.system = "macbook"
 }
 
-job_name = 'train'
+job_name = 'calculate_outcomes'
 
 # find sample-x-SMILES.smi files
 fns = dir("experiments/01_kategory/", pattern = "sample-", full.names = T, recursive = T) %>%
@@ -89,7 +89,7 @@ write_sh(job_name = job_name,
          sh_file = sh_file,
          grid_file = grid_file,
          log.dir = log.dir,
-         inner_file = 'python/train_model.py',
+         inner_file = 'python/calculate_outcomes.py',
          system = this.system,
          time = 23,
          mem = 12, gpu = T)
