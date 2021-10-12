@@ -23,38 +23,24 @@ fns = dir("experiments/01_kategory/", pattern = "sample-", full.names = T, recur
   .[!grepl("enum", .)] %>%
   normalizePath()
 
-# parser = argparse.ArgumentParser(
-#   description='Calculate a series of properties for a set of SMILES')
-# parser.add_argument('--smiles_file', type=str,
-#                     help='file containing SMILES')
-# parser.add_argument('--reference_file', type=str,
-#                     help='file containing a reference set of SMILES')
-# parser.add_argument('--output_dir', type=str,
-#                     help='directory to save output to')
-# parser.add_argument('--selfies', dest='selfies',
-#                     help='calculate outcomes for molecules in SELFIES format',
-#                     action='store_true')
-# parser.add_argument('--deepsmiles', dest='deepsmiles',
-#                     help='calculate outcomes for molecules in DeepSMILES format',
-#                     action='store_true')
-# parser.add_argument('--stop_if_exists', dest='stop_if_exists',
-#                     action='store_true')
-
+# find original files for samples
+types = sapply(fns, function(x) basename(dirname(x))) %>% unlist() %>% unname()
+all_original_files = dir("data/hmdb/", pattern = "clean.smi", full.names = T, recursive = T)
+original_files = all_original_files[sapply(types, function(x) grep(x, all_original_files))]
 
 # set up grid
-jobs = tidyr::crossing(smiles_file = fns,
-                       reference_file = "data/hmdb/20200730_hmdb_classifications-canonical.csv.gz") %>%
+jobs = data.frame(smiles_file = fns,
+                  original_files = original_files,
+                  reference_file = "data/hmdb/20200730_hmdb_classifications-canonical.csv.gz") %>%
   mutate(output_dir = paste0(project_dir, "experiments/01_kategory/",
                              basename(smiles_file) %>% gsub("_clean.smi", "", .), "/"),
-         sample_IDX = basename(fns) %>% gsub('\\D+','', .) %>% as.numeric()) %>%
-  mutate(model_file = paste0(output_dir, "model-", sample_IDX,".pt"),
+         sample_IDX = basename(fns) %>% gsub('\\D+','', .) %>% as.numeric(),
+         model_file = paste0(output_dir, "model-", sample_IDX,".pt"),
          outcomes_file = paste0(output_dir, "outcomes-", sample_IDX), 
          selfies = FALSE,
          deepsmiles = FALSE,
-         stop_if_exists = TRUE) %>%
-  # # vocab file
-  # mutate(fn_vocab = paste0("experiments/01_kategory/",
-  #                          file_path_sans_ext(basename(smiles_file)))) %>%
+         stop_if_exists = TRUE,
+         minimal = FALSE) %>%
   # filter out jobs that exist
   filter(!file.exists(outcomes_file)) %>%
   as.data.frame()

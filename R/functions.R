@@ -141,6 +141,30 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       '    --patience 50000 \\ ',
       '    --stop_if_exists'
     )
+  } else if (job_name=="calculate_outcomes") {
+    run_lines = c(
+      'LINE_IDX=$((PBS_ARRAY_INDEX + 1))',
+      paste0('LINE=`sed "${LINE_IDX}q;d" ', grid_file, '`'),
+      "IFS=$'\\t' PARAMS=($LINE)",
+      'ORIGINAL_FILE=${PARAMS[1]}',
+      'OUTPUT_DIR=${PARAMS[3]}',
+      'STOP_IF_EXISTS=${PARAMS[9]}',
+      'MINMAL=${PARAMS[10]}',
+      'SELFIES=${PARAMS[7]}',
+      'DEEPSMILES=${PARAMS[8]}',
+      'SAMPLED_FILES=${PARAMS[0]}',
+      '',
+      'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/python',
+      '',
+      'singularity exec --nv /arc/project/st-ljfoster-1/Conda_Container.sif python3 train_model.py \\ ',
+      '    --original_file $ORIGINAL_FILE \\ ',
+      '    --output_idr $SMILES_FILE \\ ',
+      '    --stop_if_exists $STOP_IF_EXISTS \\ ',
+      '    --minimal $MINMAL \\ ',
+      '    --selfies $SELFIES \\ ',
+      '    --deepsmiles $DEEPSMILES \\ ',
+      '    --sampled_files $SAMPLED_FILES',
+    )
   }
   
   # write to file
