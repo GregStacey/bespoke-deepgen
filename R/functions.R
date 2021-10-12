@@ -158,7 +158,7 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       '',
       'singularity exec --nv /arc/project/st-ljfoster-1/Conda_Container.sif python3 calculate_outcomes.py \\ ',
       '    --original_file $ORIGINAL_FILE \\ ',
-      '    --output_idr $OUTPUT_DIR \\ ',
+      '    --output_dir $OUTPUT_DIR \\ ',
       '    --stop_if_exists $STOP_IF_EXISTS \\ ',
       '    --minimal $MINIMAL \\ ',
       '    --selfies $SELFIES \\ ',
