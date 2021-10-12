@@ -82,6 +82,6 @@ write_sh(job_name = job_name,
 
 
 # finally, run the job on whatever system we're on
-args = data.frame(allocation = "st-ljfoster-1-gpu")
+args = data.frame(allocation = "st-ljfoster-1")
 submit_job(nrow(jobs), sh_file, args$allocation, this.system)
 
