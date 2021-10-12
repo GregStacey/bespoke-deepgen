@@ -60,7 +60,7 @@ jobs = tidyr::crossing(smiles_file = fns,
   as.data.frame()
 
 # reduce to <=50 jobs on sockeye
-if (this.system=="sockeye") {
+if (this.system=="sockeye" & nrow(jobs)>=50) {
   jobs = jobs[sample(nrow(jobs), 49),]
 }
 
