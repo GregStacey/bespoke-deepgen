@@ -156,7 +156,7 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       '',
       'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/python',
       '',
-      'singularity exec --nv /arc/project/st-ljfoster-1/Conda_Container.sif python3 train_model.py \\ ',
+      'singularity exec --nv /arc/project/st-ljfoster-1/Conda_Container.sif python3 calculate_outcomes.py \\ ',
       '    --original_file $ORIGINAL_FILE \\ ',
       '    --output_idr $SMILES_FILE \\ ',
       '    --stop_if_exists $STOP_IF_EXISTS \\ ',
