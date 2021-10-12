@@ -163,7 +163,7 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       '    --minimal $MINMAL \\ ',
       '    --selfies $SELFIES \\ ',
       '    --deepsmiles $DEEPSMILES \\ ',
-      '    --sampled_files $SAMPLED_FILES',
+      '    --sampled_files $SAMPLED_FILES'
     )
   }
   
