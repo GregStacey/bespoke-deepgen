@@ -26,12 +26,14 @@ fns = dir("experiments/01_kategory/", pattern = "sample-", full.names = T, recur
 # find original files for samples
 types = sapply(fns, function(x) basename(dirname(x))) %>% unlist() %>% unname()
 all_original_files = dir("data/hmdb/", pattern = "clean.smi", full.names = T, recursive = T)
-original_files = all_original_files[sapply(types, function(x) grep(x, all_original_files))]
+original_files = all_original_files[sapply(types, function(x) grep(x, all_original_files))] %>%
+  normalizePath()
 
 # set up grid
 jobs = data.frame(smiles_file = fns,
                   original_files = original_files,
-                  reference_file = "data/hmdb/20200730_hmdb_classifications-canonical.csv.gz") %>%
+                  reference_file = "data/hmdb/20200730_hmdb_classifications-canonical.csv.gz" %>%
+                    normalizePath()) %>%
   mutate(output_dir = paste0(project_dir, "experiments/01_kategory/",
                              basename(smiles_file) %>% gsub("_clean.smi", "", .), "/"),
          sample_IDX = basename(fns) %>% gsub('\\D+','', .) %>% as.numeric(),
