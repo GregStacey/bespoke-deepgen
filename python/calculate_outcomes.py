@@ -196,7 +196,7 @@ for sampled_file in args.sampled_files:
         ## outcome 2: % novel
         # convert back to canonical SMILES for text-based comparison
         pct_novel = len([sm for sm in gen_canonical if not sm in \
-                         org_canonical]) / len(gen_canonical)
+                         org_canonical]) / (len(gen_canonical)+1)
         res = res.append(pd.DataFrame({
                 'input_file': sampled_file,
                 'outcome': '% novel',

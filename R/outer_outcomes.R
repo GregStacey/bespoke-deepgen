@@ -76,7 +76,7 @@ write_sh(job_name = job_name,
          inner_file = 'python/calculate_outcomes.py',
          system = this.system,
          time = 23,
-         mem = 12, gpu = F)
+         mem = 32, gpu = F)
 
 
 # finally, run the job on whatever system we're on
