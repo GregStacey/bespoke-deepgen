@@ -148,10 +148,6 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       "IFS=$'\\t' PARAMS=($LINE)",
       'ORIGINAL_FILE=${PARAMS[1]}',
       'OUTPUT_DIR=${PARAMS[3]}',
-      'STOP_IF_EXISTS=${PARAMS[9]}',
-      'MINIMAL=${PARAMS[10]}',
-      'SELFIES=${PARAMS[7]}',
-      'DEEPSMILES=${PARAMS[8]}',
       'SAMPLED_FILES=${PARAMS[0]}',
       '',
       'cd /scratch/st-ljfoster-1/staceyri/bespoke-deepgen/python',
@@ -159,10 +155,7 @@ write_sh = function(job_name = c("clean", "enumerate", "train","calculate_outcom
       'singularity exec --nv /arc/project/st-ljfoster-1/Conda_Container.sif python3 calculate_outcomes.py \\ ',
       '    --original_file $ORIGINAL_FILE \\ ',
       '    --output_dir $OUTPUT_DIR \\ ',
-      '    --stop_if_exists $STOP_IF_EXISTS \\ ',
-      '    --minimal $MINIMAL \\ ',
-      '    --selfies $SELFIES \\ ',
-      '    --deepsmiles $DEEPSMILES \\ ',
+      '    --stop_if_exists \\ ',
       '    --sampled_files $SAMPLED_FILES'
     )
   }

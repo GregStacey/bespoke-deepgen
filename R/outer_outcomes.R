@@ -36,11 +36,7 @@ jobs = data.frame(smiles_file = fns,
                              basename(smiles_file) %>% gsub("_clean.smi", "", .), "/"),
          sample_IDX = basename(fns) %>% gsub('\\D+','', .) %>% as.numeric(),
          model_file = paste0(output_dir, "model-", sample_IDX,".pt"),
-         outcomes_file = paste0(output_dir, "outcomes-", sample_IDX), 
-         selfies = "False",
-         deepsmiles = "Fasle",
-         stop_if_exists = "True",
-         minimal = "False") %>%
+         outcomes_file = paste0(output_dir, "outcomes-", sample_IDX)) %>%
   # filter out jobs that exist
   filter(!file.exists(outcomes_file)) %>%
   as.data.frame()
