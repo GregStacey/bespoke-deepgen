@@ -203,7 +203,7 @@ for sampled_file in args.sampled_files:
                 'value': [pct_novel] }))
 
         ## outcome 3: % unique
-        pct_unique = len(set(gen_canonical)) / len(gen_canonical)
+        pct_unique = len(set(gen_canonical)) / (len(gen_canonical)+1)
         res = res.append(pd.DataFrame({
                 'input_file': sampled_file,
                 'outcome': '% unique',
