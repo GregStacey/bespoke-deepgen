@@ -14,7 +14,8 @@ class Object(object):
 
 args = Object()
 # input file
-args.smiles_file = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/data/hmdb/superklass/Benzenoids_clean.smi"
+args.original_file = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/data/hmdb/superklass/Benzenoids_clean.smi"
+args.sampled_files = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/experiments/01_kategory/Benzenoids/sample-1-SMILES.smi"
 args.selfies = False
 # output files
 args.output_dir = "/scratch/st-ljfoster-1/staceyri/bespoke-deepgen/experiments/01_kategory/Benzenoids/"
