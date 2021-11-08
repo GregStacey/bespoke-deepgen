@@ -3,6 +3,7 @@ require(readr)
 require(dplyr)
 require(tidyr)
 require(stringr)
+require(ggplot2)
 require(magrittr)
 
 

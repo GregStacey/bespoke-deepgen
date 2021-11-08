@@ -27,7 +27,7 @@ fns = dir("experiments/01_kategory/", pattern = "sample-", full.names = T, recur
 types = sapply(fns, function(x) basename(dirname(x))) %>% unlist() %>% unname()
 all_original_files = dir("data/hmdb/", pattern = "clean.smi", full.names = T, recursive = T)
 original_files = all_original_files[sapply(types, function(x) {
-  tmp = grep(x, all_original_files)
+  tmp = grep(paste0(x, "_clean"), all_original_files)
   if (length(tmp)==0) return(NA)
   return(tmp)}) %>%
   unlist()] %>%
@@ -42,7 +42,7 @@ jobs = data.frame(smiles_file = fns,
                              basename(original_files) %>% gsub("_clean.smi", "", .), "/"),
          sample_IDX = basename(fns) %>% gsub('\\D+','', .) %>% as.numeric(),
          model_file = paste0(output_dir, "model-", sample_IDX,".pt"),
-         outcomes_file = paste0(output_dir, "outcomes-", sample_IDX)) %>%
+         outcomes_file = paste0(output_dir, "sample-", sample_IDX,"-SMILES-outcomes.csv.gz")) %>%
   # filter out jobs that exist
   filter(!file.exists(outcomes_file)) %>%
   as.data.frame()
